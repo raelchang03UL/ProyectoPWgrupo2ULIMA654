@@ -1,0 +1,116 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+  background-color: #121212;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.sidebar {
+  width: 80px;
+  background-color: #1c1c1c;
+  padding: 25px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+  overflow-x: hidden;
+  transition: width 0.3s ease-in-out;
+}
+
+.sidebar:hover {
+  width: 240px;
+  align-items: flex-start;
+}
+
+.sidebar .logo {
+  width: 100%;
+  margin-bottom: 30px;
+  text-align: center;
+  cursor: pointer;
+}
+.sidebar .logo h2 {
+  font-size: 1.6rem;
+  font-weight: bold;
+  white-space: nowrap;
+  color: white;
+}
+.sidebar .logo-text-highlight {
+  color: #ff6f00;
+}
+.sidebar .logo-text-full {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  color: aqua;
+}
+.sidebar:hover .logo-text-full {
+  opacity: 1;
+  transition-delay: 0.1s;
+}
+
+.sidebar nav {
+  width: 100%;
+}
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.sidebar:hover nav ul {
+  align-items: flex-start;
+}
+.sidebar nav li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  margin: 6px 0;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.sidebar:hover nav li {
+  padding: 10px 20px;
+}
+.sidebar nav .nav-icon {
+  color: #ff6f00;
+  min-width: 20px;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+.sidebar nav li:hover {
+  background-color: #ff6f00;
+  color: white;
+}
+.sidebar nav li:hover .nav-icon {
+  color: white;
+}
+.sidebar .nav-text {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+.sidebar:hover .nav-text {
+  opacity: 1;
+  transition-delay: 0.1s;
+}
+
+/* --- CONTENIDO PRINCIPAL (CORREGIDO) --- */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  /* CORRECCIÓN: El padding se ha movido a cada página individual */
+  /* para que tengan control total de su espacio. */
+}
+.main-content::-webkit-scrollbar { width: 8px; }
+.main-content::-webkit-scrollbar-thumb { background: #ff6f00; border-radius: 10px; }
+.main-content::-webkit-scrollbar-track { background: #1c1c1c; }

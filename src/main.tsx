@@ -1,9 +1,10 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import PantallaGeneral from './PantallaGeneral'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import CambiarPantallas from "./pages/CambiarPantallas";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-  <PantallaGeneral />
-  </StrictMode>,
-)
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <CambiarPantallas />
+  </React.StrictMode>
+);

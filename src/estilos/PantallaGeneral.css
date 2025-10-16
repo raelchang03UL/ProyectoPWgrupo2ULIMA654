@@ -1,0 +1,323 @@
+.app-container {
+  display: flex;
+  height: 100vh;
+  background-color: #121212;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #1c1c1c;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar .logo {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.sidebar .logo h2 {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.sidebar .logo span {
+  color: #ff6f00;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.sidebar nav li {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 10px 20px;
+  margin: 6px 0;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.sidebar nav li svg {
+  color: #ff6f00;
+  min-width: 20px;
+  transition: color 0.3s ease;
+}
+
+.sidebar nav li:hover {
+  background-color: #ff6f00;
+  color: white;
+  transform: scale(1.05);
+}
+
+.sidebar nav li:hover svg {
+  color: white;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+  background-color: #181818;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.search-input {
+  padding: 10px 20px;
+  width: 280px;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  background-color: #2a2a2a;
+  color: white;
+}
+
+.auth-buttons button {
+  margin-left: 10px;
+  border-radius: 25px;
+  padding: 8px 18px;
+}
+
+.hero {
+  text-align: center;
+  margin-top: 10%;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.hero h1 {
+  color: #ff6f00;
+  font-size: 2.5rem;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  color: #e0e0e0;
+  margin-top: 10px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #1e1e1e;
+  padding: 25px;
+  border-radius: 15px;
+  width: 360px;
+  box-shadow: 0 0 15px rgba(255, 111, 0, 0.4);
+  animation: zoomIn 0.25s ease;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+.modal-content h3 {
+  color: #ff6f00;
+  text-align: center;
+  font-weight: 600;
+}
+
+.modal-content input {
+  background-color: #2a2a2a;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 10px;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.modal-content input:focus {
+  outline: none;
+  border-color: #ff6f00;
+  box-shadow: 0 0 4px #ff6f00;
+}
+
+.modal-content .btn-warning {
+  background-color: #ff6f00;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.modal-content .btn-warning:hover {
+  background-color: #ff8f1a;
+}
+
+.modal-error {
+  color: #ff4444;
+  font-size: 0.9rem;
+  margin-top: 8px;
+  text-align: center;
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #ff6f00;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #1c1c1c;
+}
+
+.sidebar nav li.active {
+  background-color: #ff6f00;
+  color: white;
+}
+
+.sidebar nav li.active svg {
+  color: white;
+}
+
+.btn-ulima {
+  background-color: #ff6f00;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 20px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.btn-ulima:hover {
+  background-color: #ff8f1a;
+  transform: scale(1.05);
+}
+
+.btn-ulima-outline {
+  background-color: transparent;
+  border: 2px solid #ff6f00;
+  color: #ff6f00;
+  border-radius: 25px;
+  padding: 8px 20px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.btn-ulima-outline:hover {
+  background-color: #ff6f00;
+  color: white;
+  transform: scale(1.05);
+}
+
+.category-section {
+  margin-top: 50px;
+}
+
+.section-title {
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; 
+}
+
+.category-card {
+  width: 180px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.category-card:hover {
+  transform: translateY(-8px) scale(1.03); 
+  box-shadow: 0 8px 25px rgba(255, 111, 0, 0.3); 
+}
+
+.category-card img {
+  width: 100%;
+  height: 240px; 
+  object-fit: cover;
+  display: block;
+}
+
+.category-card .card-info {
+  padding: 12px;
+  background-color: #202020;
+}
+
+.category-card .card-info h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 5px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.category-card .card-info p {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin: 0;
+}
