@@ -22,6 +22,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <FaHome className="nav-icon" />
               <span className="nav-text">Inicio</span>
             </li>
+            <li onClick={() => navigate("/perfil")}> 
+              <FaStar className="nav-icon" />
+              <span className="nav-text">Mi Perfil</span>
+            </li>
             <li onClick={() => navigate("/regalos")}>
               <FaGift className="nav-icon" />
               <span className="nav-text">Tienda</span>
