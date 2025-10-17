@@ -22,7 +22,7 @@ const defaultProfile: StreamerProfile = {
 }
 
 const calcularPuntosParaNivel = (nivel: number): number => {
-  return nivel * 100 // Cada nivel requiere 100 puntos más que el anterior
+  return nivel * 100
 }
 
 const calcularProgreso = (puntosActuales: number, nivel: number): number => {
@@ -35,27 +35,59 @@ const calcularProgreso = (puntosActuales: number, nivel: number): number => {
 const Perfil = () => {
   const [profile, setProfile] = useState<StreamerProfile>(defaultProfile)
   const [editMode, setEditMode] = useState(false)
+  const [currentRole, setCurrentRole] = useState<"usuario" | "streamer">("usuario")
 
   useEffect(() => {
-    const stored = localStorage.getItem("streamerProfile")
-    if (stored) {
-      const loadedProfile = JSON.parse(stored)
-      const mergedProfile = {
-        ...defaultProfile,
-        ...loadedProfile,
-        // Asegurar que nivel y puntos existan y sean números válidos
-        nivel: typeof loadedProfile.nivel === "number" ? loadedProfile.nivel : 1,
-        puntos: typeof loadedProfile.puntos === "number" ? loadedProfile.puntos : 0,
+    const currentUserData = localStorage.getItem("currentUser")
+    if (currentUserData) {
+      const currentUser = JSON.parse(currentUserData)
+      const users = JSON.parse(localStorage.getItem("users") || "[]")
+      const foundUser = users.find((u: any) => u.email === currentUser.email)
+
+      if (foundUser) {
+        const userProfile: StreamerProfile = {
+          name: foundUser.name,
+          description: foundUser.description || defaultProfile.description,
+          followers: foundUser.followers || 0,
+          totalHours: foundUser.totalHours || 0,
+          nivel: foundUser.nivel || 1,
+          puntos: foundUser.puntos || 0,
+        }
+        setProfile(userProfile)
       }
-      setProfile(mergedProfile)
-      // Guardar el perfil actualizado para futuras cargas
-      localStorage.setItem("streamerProfile", JSON.stringify(mergedProfile))
+    }
+
+    const role = localStorage.getItem("currentRole") as "usuario" | "streamer" | null
+    if (role) {
+      setCurrentRole(role)
     }
   }, [])
 
   const saveProfile = (next: StreamerProfile) => {
     setProfile(next)
-    localStorage.setItem("streamerProfile", JSON.stringify(next))
+
+    const currentUserData = localStorage.getItem("currentUser")
+    if (currentUserData) {
+      const currentUser = JSON.parse(currentUserData)
+      const users = JSON.parse(localStorage.getItem("users") || "[]")
+      const userIndex = users.findIndex((u: any) => u.email === currentUser.email)
+
+      if (userIndex !== -1) {
+        users[userIndex] = {
+          ...users[userIndex],
+          name: next.name,
+          description: next.description,
+          followers: next.followers,
+          totalHours: next.totalHours,
+          nivel: next.nivel,
+          puntos: next.puntos,
+        }
+        localStorage.setItem("users", JSON.stringify(users))
+
+        const updatedCurrentUser = { ...currentUser, ...users[userIndex] }
+        localStorage.setItem("currentUser", JSON.stringify(updatedCurrentUser))
+      }
+    }
   }
 
   const handleAddHours = (hours: number) => {
@@ -87,7 +119,6 @@ const Perfil = () => {
   }
 
   const handleSaveEdits = () => {
-    // Función para guardar los cambios en el perfil
     saveProfile(profile)
     setEditMode(false)
   }
@@ -96,6 +127,8 @@ const Perfil = () => {
   const puntosBase = (profile.nivel - 1) * 100
   const puntosEnNivelActual = profile.puntos - puntosBase
   const progreso = calcularProgreso(profile.puntos, profile.nivel)
+
+  const isStreamer = currentRole === "streamer"
 
   return (
     <div className="perfil-container">
@@ -109,17 +142,19 @@ const Perfil = () => {
           <p className="perfil-followers">{profile.followers.toLocaleString()} seguidores</p>
           <p className="perfil-hours">{profile.totalHours} horas transmitidas</p>
         </div>
-        <div className="perfil-actions">
-          <button className="btn-ulima-outline" onClick={() => handleAddFollower()}>
-            + Seguidor
-          </button>
-          <button className="btn-ulima-outline" onClick={() => handleAddHours(1)}>
-            +1 hora
-          </button>
-          <button className="btn-ulima" onClick={() => setEditMode(!editMode)}>
-            {editMode ? "Cancelar" : "Editar Perfil"}
-          </button>
-        </div>
+        {isStreamer && (
+          <div className="perfil-actions">
+            <button className="btn-ulima-outline" onClick={() => handleAddFollower()}>
+              + Seguidor
+            </button>
+            <button className="btn-ulima-outline" onClick={() => handleAddHours(1)}>
+              +1 hora
+            </button>
+            <button className="btn-ulima" onClick={() => setEditMode(!editMode)}>
+              {editMode ? "Cancelar" : "Editar Perfil"}
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="perfil-stats">
@@ -149,7 +184,7 @@ const Perfil = () => {
       <div className="perfil-body">
         <section className="perfil-about">
           <h3>Acerca de</h3>
-          {editMode ? (
+          {editMode && isStreamer ? (
             <textarea
               value={profile.description}
               onChange={(e) => setProfile({ ...profile, description: e.target.value })}
@@ -157,7 +192,7 @@ const Perfil = () => {
           ) : (
             <p>{profile.description}</p>
           )}
-          {editMode && (
+          {editMode && isStreamer && (
             <button className="btn-ulima" onClick={handleSaveEdits}>
               Guardar
             </button>

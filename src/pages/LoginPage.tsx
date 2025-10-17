@@ -1,40 +1,73 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+"use client"
+
+import type React from "react"
+
+import { useState } from "react"
+import { useNavigate, Link } from "react-router-dom"
+import "bootstrap/dist/css/bootstrap.min.css"
 
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const navigate = useNavigate()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [selectedRole, setSelectedRole] = useState("usuario")
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+
+  const validateForm = (): boolean => {
+    const newErrors: { [key: string]: string } = {}
+
+    // Validar email
+    if (!email.trim()) {
+      newErrors.email = "El correo electrónico es obligatorio"
+    } else if (!validateEmail(email)) {
+      newErrors.email = "El formato del correo electrónico no es válido"
+    }
+
+    // Validar contraseña
+    if (!password) {
+      newErrors.password = "La contraseña es obligatoria"
+    } else if (password.length < 8) {
+      newErrors.password = "La contraseña debe tener al menos 8 caracteres"
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const storedUser = localStorage.getItem("userData");
-
-    if (!storedUser) {
-      setError("No hay usuarios registrados. Regístrate primero.");
-      return;
+    if (!validateForm()) {
+      return
     }
 
-    const user = JSON.parse(storedUser);
-    if (user.email === email && user.password === password) {
-      localStorage.setItem("isLoggedIn", "true");
+    const allUsersData = localStorage.getItem("allUsers")
 
+    if (allUsersData) {
+      const allUsers = JSON.parse(allUsersData)
+      const foundUser = allUsers.find((u: any) => u.email === email && u.password === password)
 
-      localStorage.setItem("currentRole", user.role);
+      if (foundUser) {
+        // Guardar sesión del usuario actual
+        localStorage.setItem("isLoggedIn", "true")
+        localStorage.setItem("currentUser", JSON.stringify(foundUser))
+        localStorage.setItem("currentRole", selectedRole)
 
-
-      if (user.role === "streamer") {
-        navigate("/inicio"); 
+        console.log("[v0] Usuario encontrado:", foundUser)
+        alert(`Bienvenido de nuevo, ${foundUser.name}!`)
+        navigate("/inicio")
       } else {
-        navigate("/inicio");
+        setErrors({ password: "Credenciales incorrectas" })
       }
     } else {
-      setError("Correo o contraseña incorrectos.");
+      setErrors({ email: "No se encontró ningún usuario registrado" })
     }
-  };
+  }
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-dark text-light">
@@ -45,25 +78,40 @@ const LoginPage = () => {
             <label>Email:</label>
             <input
               type="email"
-              className="form-control"
+              className={`form-control ${errors.email ? "is-invalid" : ""}`}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+              onChange={(e) => {
+                setEmail(e.target.value)
+                if (errors.email) setErrors({ ...errors, email: "" })
+              }}
             />
+            {errors.email && <div className="invalid-feedback">{errors.email}</div>}
           </div>
+
           <div className="mb-3">
             <label>Contraseña:</label>
             <input
               type="password"
-              className="form-control"
+              className={`form-control ${errors.password ? "is-invalid" : ""}`}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              onChange={(e) => {
+                setPassword(e.target.value)
+                if (errors.password) setErrors({ ...errors, password: "" })
+              }}
             />
+            {errors.password && <div className="invalid-feedback">{errors.password}</div>}
           </div>
-          {error && <p className="text-danger">{error}</p>}
+
+          <div className="mb-3">
+            <label>Selecciona tu rol:</label>
+            <select className="form-select" value={selectedRole} onChange={(e) => setSelectedRole(e.target.value)}>
+              <option value="usuario">Espectador</option>
+              <option value="streamer">Streamer</option>
+            </select>
+          </div>
+
           <button className="btn btn-warning w-100" type="submit">
-            Ingresar
+            Iniciar Sesión
           </button>
         </form>
         <p className="text-center mt-3">
@@ -74,7 +122,7 @@ const LoginPage = () => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage
