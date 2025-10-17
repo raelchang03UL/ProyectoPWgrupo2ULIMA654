@@ -1,13 +1,16 @@
-import { useNavigate } from "react-router-dom";
-import { FaHome, FaGift, FaStar, FaCogs, FaInfoCircle, FaFileAlt } from "react-icons/fa";
-import "../estilos/Layout.css";
+"use client"
+
+import type React from "react"
+
+import { useNavigate } from "react-router-dom"
+import { FaHome, FaGift, FaStar, FaCogs, FaInfoCircle, FaFileAlt } from "react-icons/fa"
+import "../estilos/Layout.css"
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   return (
     <div className="app-container">
-
       <aside className="sidebar">
         <div className="logo" onClick={() => navigate("/inicio")}>
           <h2>
@@ -17,12 +20,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
         <nav>
           <ul>
-
             <li onClick={() => navigate("/inicio")}>
               <FaHome className="nav-icon" />
               <span className="nav-text">Inicio</span>
             </li>
-            <li onClick={() => navigate("/perfil")}> 
+            <li onClick={() => navigate("/perfil")}>
               <FaStar className="nav-icon" />
               <span className="nav-text">Mi Perfil</span>
             </li>
@@ -50,11 +52,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </nav>
       </aside>
 
-      <main className="main-content">
-        {children}
-      </main>
+      <main className="main-content">{children}</main>
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

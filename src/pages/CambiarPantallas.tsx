@@ -8,6 +8,9 @@ import CategoryStreamersPage from "./CategoryStreamersPage"
 import Perfil from "./Perfil"
 import ConfigurarStream from "./ConfigurarStream"
 import RegisterPage from "./RegisterPage"
+import ProcesandoPago from "./ProcesandoPago"
+import RecargaExitosa from "./RecargaExitosa"
+import RecargaFallida from "./RecargaFallida"
 import Layout from "../components/Layout"
 
 const CambiarPantallas = () => {
@@ -35,6 +38,38 @@ const CambiarPantallas = () => {
           element={
             <Layout>
               <TiendaPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/tienda"
+          element={
+            <Layout>
+              <TiendaPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/tienda/procesando"
+          element={
+            <Layout>
+              <ProcesandoPago />
+            </Layout>
+          }
+        />
+        <Route
+          path="/tienda/recarga-exitosa"
+          element={
+            <Layout>
+              <RecargaExitosa />
+            </Layout>
+          }
+        />
+        <Route
+          path="/tienda/recarga-fallida"
+          element={
+            <Layout>
+              <RecargaFallida />
             </Layout>
           }
         />
